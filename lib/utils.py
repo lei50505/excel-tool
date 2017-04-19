@@ -1,57 +1,94 @@
-from openpyxl import Workbook
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
-def addList(l,d):
-    l.append(d)
+import sys
+sys.path.append(".")
 
-# wb = getWb()
-# wb.active
-def getWb():
+import os
+from openpyxl.styles import *
+from openpyxl import *
+
+def createBook():
     return Workbook()
 
-def activeWb(wb):
-    return wb.active
+def loadBook(filePath):
+    return load_workbook(filePath)
 
-def addWs(wb,name):
-    return wb.create_sheet(name)
+def activeBook(book):
+    return book.active
 
-# add first addShtPos(wb,name,0):
-def addWsPos(wb,name,pos):
-    return wb.create_sheet(name,pos)
+def addSheet(book,sheetName):
+    return book.create_sheet(sheetName)
 
-def getWsByName(wb,name):
-    return wb[name]
+def insertSheet(book,sheetName,index):
+    return book.create_sheet(sheetName,index)
 
-def getWsName(ws):
-    return ws.title
+def getSheetByName(book,sheetName):
+    return book[sheetName]
 
-def getWsNames(wb):
-    return wb.sheetnames
+def getSheetName(sheet):
+    return sheet.title
 
-def copyWs(wb,ws):
-    return wb.copy_worksheet(ws)
+def setSheetName(sheet, sheetName):
+    sheet.title = sheetName
 
-def getWsNamesLoop(wb):
-    names = []
-    for ws in wb:
-        addList(names,getWsName(ws))
-    return names
+def getSheetNamesInBook(book):
+    return book.sheetnames
 
-def setVal(ws,col,row,val):
-    ws[col+row]=val
+def copySheet(book,sheet):
+    return book.copy_worksheet(sheet)
 
-def setVal(ws,colrow,val):
-    ws[colrow]=val
+def getSheetNamesInBookLoop(book):
+    sheetNames = []
+    for sheet in book:
+        sheetNames.append(getSheetName(sheet))
+    return sheetNames
+
+def setVal(sheet,col,row,val):
+    sheet[col+row]=val
+
+def setVal(sheet,colrow,val):
+    sheet[colrow]=val
     
-def getVal(ws,col,row):
-    
-    return ws[col+row]
+def getVal(sheet,col,row):
+    return sheet[col+row]
 
-def setWsName(ws,name):
-    ws.title = name
+def getVal(sheet,colrow):
+    return sheet[colrow]
 
-# setShtTabColor(ws,"1072BA")
-def setWsTabColor(ws,color):
-    ws.sheet_properties.tabColor = color
+def getCell(sheet,row,column):
+    return sheet.cell(row=row,column=column)
 
-def saveWb(wb,filePath):
-    wb.save(filePath)
+def setCellValue(sheet,row,column,value):
+    sheet.cell(row=row,column=column).value = value
+
+def getCellValue(sheet,row,column):
+    return sheet.cell(row=row,column=column).value
+
+def getFontColor(sheet,row,column):
+    return sheet.cell(row=row,column=column).font.color
+
+def getColors():
+    return colors
+
+def getColor(color):
+    return Color(color)
+
+def getBlackColor():
+    return colors.BLACK
+
+def setSheetTabColor(sheet,color):
+    sheet.sheet_properties.tabColor = color
+
+def saveBook(book,filePath):
+    book.save(filePath)
+
+def getMaxRow(sheet):
+    return sheet.max_row
+
+def getMaxColumn(sheet):
+    return sheet.max_column
+
+def removeFile(filePath):
+    if os.path.isfile(filePath):
+        os.remove(filePath)
